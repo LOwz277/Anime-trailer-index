@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Trailer Index</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   <header class="hero-section">
+    <div class="hero-overlay">
+        <h1 class="main-title">🎬 Anime Media Hub</h1>
+        
+        <div class="search-box">
+            <div class="search-input-wrapper">
+                <input type="text" id="searchInput" placeholder="Search by studio, artist, or type (e.g., Opening)...">
+                <button id="searchBtn">Search</button>
+                <button id="resetBtn">View All</button>
+            </div>
+
+            <div class="filter-bar">
+                <button class="filter-btn active" data-category="all">All</button>
+                <button class="filter-btn" data-category="Trailer">Trailers</button>
+                <button class="filter-btn" data-category="Opening">Openings</button>
+                <button class="filter-btn" data-category="Ending">Endings</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div id="trailers-container" class="grid-container"></div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

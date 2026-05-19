@@ -1,28 +1,42 @@
-require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
 const connectDB = require('./src/config/db');
+const trailerRoutes = require('./src/routes/trailerRoutes');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+require('dotenv').config();
 
-// Initialisation d'Express
 const app = express();
 
-// Middlewares (Obligatoire pour valider le critère JSON du prof)
-app.use(cors());
-app.use(express.json()); 
-
-// Initialisation de la base de données
+// Connexion Base de données
 connectDB();
 
-const trailerRoutes = require('./src/routes/trailerRoutes');
+// Middlewares
+app.use(express.json());
+app.use(express.static('public'));
+
+// Configuration Swagger
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Anime Media Hub API',
+            version: '1.0.0',
+            description: 'API pour gérer les trailers, openings et endings d animes',
+        },
+        servers: [
+            {
+                url: 'http://localhost:3000',
+            },
+        ],
+    },
+    apis: ['./src/routes/*.js'], // Va chercher la doc dans les fichiers de routes
+};
+
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+// Routes
 app.use('/api/trailers', trailerRoutes);
 
-// Route de test basique
-app.get('/', (req, res) => {
-    res.json({ message: "API Anime Trailer Index opérationnelle !" });
-});
-
-// Lancement du serveur
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Serveur en ligne sur http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`Serveur lancé sur le port ${PORT}`));
