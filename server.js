@@ -13,6 +13,9 @@ app.use(express.json());
 // Initialisation de la base de données
 connectDB();
 
+const trailerRoutes = require('./src/routes/trailerRoutes');
+app.use('/api/trailers', trailerRoutes);
+
 // Route de test basique
 app.get('/', (req, res) => {
     res.json({ message: "API Anime Trailer Index opérationnelle !" });
