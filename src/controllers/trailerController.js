@@ -1,6 +1,6 @@
 const Trailer = require('../models/Trailer');
 
-// 1. LIRE TOUS LES ANIMES (READ)
+// 1. FETCH ALL ANIME ITEMS (READ)
 const getAllTrailers = async (req, res) => {
     try {
         const trailers = await Trailer.find();
@@ -10,7 +10,7 @@ const getAllTrailers = async (req, res) => {
     }
 };
 
-// 2. AJOUTER UN ANIME (CREATE)
+// 2. ADD A NEW ANIME ITEM (CREATE)
 const addTrailer = async (req, res) => {
     try {
         const newTrailer = new Trailer(req.body);
@@ -21,7 +21,7 @@ const addTrailer = async (req, res) => {
     }
 };
 
-// 3. MODIFIER UN ANIME (UPDATE)
+// 3. UPDATE AN ANIME ITEM (UPDATE)
 const updateTrailer = async (req, res) => {
     try {
         const { id } = req.params;
@@ -33,7 +33,7 @@ const updateTrailer = async (req, res) => {
     }
 };
 
-// 4. SUPPRIMER UN ANIME (DELETE)
+// 4. DELETE AN ANIME ITEM (DELETE)
 const deleteTrailer = async (req, res) => {
     try {
         const { id } = req.params;
@@ -45,11 +45,11 @@ const deleteTrailer = async (req, res) => {
     }
 };
 
-// 5. FONCTIONNALITÉ SUPPLÉMENTAIRE : RECHERCHE PAR STUDIO (SEARCH)
+// 5. ADDITIONAL FEATURE: SEARCH BY STUDIO (SEARCH)
 const searchByStudio = async (req, res) => {
     try {
-        const { studio } = req.query; // Récupère le paramètre ?studio=Nom du studio dans l'URL
-        const trailers = await Trailer.find({ studio: new RegExp(studio, 'i') }); // 'i' pour ignorer les majuscules/minuscules
+        const { studio } = req.query; // Extracts the ?studio parameter from the URL query string
+        const trailers = await Trailer.find({ studio: new RegExp(studio, 'i') }); // 'i' flag for case-insensitive matching
         res.status(200).json(trailers);
     } catch (error) {
         res.status(500).json({ message: error.message });

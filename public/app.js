@@ -4,13 +4,12 @@ const searchBtn = document.getElementById('searchBtn');
 const resetBtn = document.getElementById('resetBtn');
 const filterBtns = document.querySelectorAll('.filter-btn');
 
-let currentData = []; // On stocke les données ici pour filtrer sans refaire d'appel API
+let currentData = []; 
 
-const fetchTrailers = async (studio = '') => {
+// Fetch all items from API on load
+const fetchTrailers = async () => {
     try {
-        let url = 'http://localhost:3000/api/trailers';
-        if (studio) url = `http://localhost:3000/api/trailers/search?studio=${studio}`;
-        
+        const url = 'http://localhost:3000/api/trailers';
         const response = await fetch(url);
         currentData = await response.json();
         renderCards(currentData);
@@ -19,6 +18,7 @@ const fetchTrailers = async (studio = '') => {
     }
 };
 
+// Render HTML cards dynamically
 const renderCards = (data) => {
     container.innerHTML = '';
     data.forEach(item => {
@@ -35,14 +35,12 @@ const renderCards = (data) => {
     });
 };
 
-// Logique des filtres
+// Category tabs filtering logic
 filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-        // UI : Changer le bouton actif
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        // Logique : Filtrer les données
         const category = btn.getAttribute('data-category');
         if (category === 'all') {
             renderCards(currentData);
@@ -53,7 +51,32 @@ filterBtns.forEach(btn => {
     });
 });
 
-searchBtn.addEventListener('click', () => fetchTrailers(searchInput.value));
-resetBtn.addEventListener('click', () => { searchInput.value = ''; fetchTrailers(); });
+// Multi-criteria search logic (Title, Studio, or Artist)
+const handleSearch = () => {
+    const query = searchInput.value.toLowerCase().trim();
+    
+    const filtered = currentData.filter(item => {
+        const matchTitle = item.title ? item.title.toLowerCase().includes(query) : false;
+        const matchStudio = item.studio ? item.studio.toLowerCase().includes(query) : false;
+        const matchArtist = item.artist ? item.artist.toLowerCase().includes(query) : false;
+        
+        return matchTitle || matchStudio || matchArtist;
+    });
+    
+    renderCards(filtered);
+};
 
+// Search event listeners
+searchBtn.addEventListener('click', handleSearch);
+searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleSearch();
+});
+
+// Reset search and filters
+resetBtn.addEventListener('click', () => { 
+    searchInput.value = ''; 
+    renderCards(currentData); 
+});
+
+// Initial load
 fetchTrailers();
