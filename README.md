@@ -27,26 +27,22 @@ Anime Media Hub is a sleek, modern, and fully responsive full-stack web applicat
 ### 1. Prerequisites
 Make sure you have [Node.js](https://nodejs.org/) (v16+) and an active [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) cluster ready.
 
-### 2. Clone and Navigate
+### 2. Setup and Dependencies
+Navigate into the `backend` directory and install the required modules:
 ```bash
-cd anime-media-hub
-```
-
-### 3. Install Dependencies
-Run the following command to download all required node modules:
-```bash
+cd backend
 npm install
 ```
 
-### 4. Environment Configuration
-Create a `.env` file in the root directory of the project and add your configurations:
+### 3. Environment Configuration
+Create a `.env` file inside the `backend/` directory and add your configurations:
 ```env
 PORT=3000
 MONGO_URI=your_mongodb_atlas_connection_string
 ```
 
-### 5. Launch the Application
-Start the local server:
+### 4. Launch the Application
+Start the local development server from the backend folder:
 ```bash
 npm start
 ```
@@ -69,19 +65,22 @@ npm start
 ## 📂 Project Structure
 
 ```text
-├── public/
+├── frontend/
 │   ├── posters/          # Locally hosted official anime covers
 │   ├── app.js            # Frontend logic (Search, Filters, DOM injection)
 │   ├── index.html        # Main interface skeleton
-│   └── style.css         # Custom layout definitions & responsive queries
-├── src/
-│   ├── config/
-│   │   └── db.js         # MongoDB connection lifecycle management
-│   ├── models/
-│   │   └── Trailer.js    # Mongoose Schema mapping
-│   └── routes/
-│       └── trailerRoutes.js # REST API endpoint routing definitions
-├── .env                  # Environment secrets (ignored by Git)
-├── package.json          # Project metadata and dependency management
-└── server.js             # Application entry point, middlewares & Swagger config
+│   ├── style.css         # Custom layout definitions & responsive queries
+│   └── hero-bg.jpg       # Hero section cinematic background image
+├── backend/
+│   ├── src/
+│   │   ├── config/
+│   │   │   └── db.js     # MongoDB connection lifecycle management
+│   │   ├── models/
+│   │   │   └── Trailer.js # Mongoose Schema mapping
+│   │   └── routes/
+│   │       └── trailerRoutes.js # REST API endpoint routing definitions
+│   ├── .env              # Environment secrets (ignored by Git)
+│   ├── package.json      # Project metadata and dependency management
+│   └── server.js         # Application entry point & Swagger config
+└── README.md             # Main repository documentation (Root level)
 ```

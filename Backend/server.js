@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const connectDB = require('./src/config/db');
 const trailerRoutes = require('./src/routes/trailerRoutes');
 const swaggerUi = require('swagger-ui-express');
@@ -8,7 +9,8 @@ const app = express();
 
 // 1. Core Middlewares
 app.use(express.json());
-app.use(express.static('public'));
+// Serves static files from the frontend directory (one level up from backend)
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 // 2. Database Connection
 connectDB();
